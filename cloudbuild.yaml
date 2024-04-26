@@ -1,0 +1,32 @@
+steps:
+  # 安裝依賴
+  - name: 'gcr.io/cloud-builders/npm'
+    entrypoint: 'bash'
+    args:
+    - '-c'
+    - |
+      npm install
+
+  # 執行測試
+  - name: 'gcr.io/cloud-builders/npm'
+    entrypoint: 'bash'
+    args:
+    - '-c'
+    - |
+      npm test
+
+# 指定服務帳戶
+serviceAccount: 'projects/jordanlab/serviceAccounts/service-528493536223@gs-project-accounts.iam.gserviceaccount.com'
+
+# 設定日誌存儲選項
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+# 設置構建超時時間
+timeout: '1200s'
+
+# 設定工件存儲位置和路徑
+artifacts:
+  objects:
+    location: 'gs://jordantest/jordantest/save/'
+    paths: ['test-results/**']
