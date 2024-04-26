@@ -1,0 +1,35 @@
+steps:
+  # 安裝依賴
+  - name: 'gcr.io/cloud-builders/npm'
+    entrypoint: 'bash'
+    args:
+    - '-c'
+    - |
+      npm install
+
+  # 執行測試
+  - name: 'gcr.io/cloud-builders/npm'
+    entrypoint: 'bash'
+    args:
+    - '-c'
+    - |
+      npm test
+
+# 指定服務帳戶（如果您有特定的服務帳戶需要使用）
+serviceAccount: 'projects/jordanlab/serviceAccounts/service-528493536223@gs-project-accounts.iam.gserviceaccount.com'
+
+# 設定日誌存儲選項
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+# 設置構建超時時間，例如 "1200s"，這是可選的，默認是 10 分鐘
+timeout: '1200s'
+
+# 指定日誌存儲位置，這裡您需要提供一個有效的 GCS 桶地址
+logsBucket: 'gs://jordantest'
+
+# 這裡可以指定構建完成後的其他操作，例如通知，這是可選的
+artifacts:
+  objects:
+    location: 'gs://jordantest/jordantest/save/'
+    paths: ['test-results/**']
